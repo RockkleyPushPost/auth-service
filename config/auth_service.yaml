@@ -1,0 +1,4 @@
+server:
+  app_name: "PushPost Auth-Service"
+  port: 8082
+  address: "0.0.0.0"
