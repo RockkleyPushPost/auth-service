@@ -15,10 +15,8 @@ import (
 
 func Setup(DI *di.DI, server *fiber.App, db *gorm.DB, cfg *config.Config) error {
 
-	jwtSecret := cfg.JwtSecret
-
 	// Auth
-	var authUseCase domain.AuthUseCase = &usecase.AuthUseCase{JwtSecret: jwtSecret}
+	var authUseCase domain.AuthUseCase = &usecase.AuthUseCase{JwtSecret: cfg.JwtSecret}
 	var authHandler transport2.AuthHandler = &transport.AuthHandler{}
 
 	if err := DI.Register(
@@ -41,7 +39,7 @@ func Setup(DI *di.DI, server *fiber.App, db *gorm.DB, cfg *config.Config) error 
 		SendNewOTP:     authHandler.SendNewOTP,
 	}
 
-	if err := DI.RegisterRoutes(authRoutes, "/auth"); err != nil {
+	if err := DI.RegisterRoutes(authRoutes, ""); err != nil {
 		log.Fatalf("failed to register routes: %v", err)
 
 		return err

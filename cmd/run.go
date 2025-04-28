@@ -56,17 +56,37 @@ func main() {
 		TimeZone:   "Local",
 	})
 
-	app := setup.NewFiber(fiberConfig, corsConfig)
-
-	app.Use(fiberLogger)
-	srv, err := service.NewService(service.WithServer(app), service.WithConfig(cfg), service.WithLogger(srvLogger))
+	server := setup.NewFiber(fiberConfig, corsConfig)
+	db, err := setup.Database(cfg.Database)
 
 	if err != nil {
+
 		log.Fatal(err)
 	}
-	DI := di.NewDI(app, cfg.JwtSecret)
 
-	err = service.Setup(DI, app, db, cfg)
+	DI := di.NewDI(server, cfg.JwtSecret)
+
+	server.Use(fiberLogger)
+
+	err = service.Setup(DI, server, db, cfg)
+
+	if err != nil {
+
+		srvLogger.Fatal(err)
+	}
+
+	srv, err := service.NewService(
+		service.WithConfig(cfg),
+		service.WithDI(DI),
+		service.WithLogger(srvLogger),
+		service.WithServer(server),
+	)
+
+	if err != nil {
+
+		srvLogger.Fatal(err)
+	}
+
 	go handleShutdown(ctx, cancel, srv, srvLogger)
 
 	srvLogger.Fatal(srv.Run(ctx))
