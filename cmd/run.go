@@ -7,9 +7,13 @@ import (
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"log"
 	"os"
+	"os/signal"
 	"pushpost/internal/config"
+	"pushpost/internal/services/auth_service/service"
 	"pushpost/internal/setup"
+	"pushpost/pkg/di"
 	lg "pushpost/pkg/logger"
+	"syscall"
 	"time"
 )
 
@@ -55,4 +59,31 @@ func main() {
 	app := setup.NewFiber(fiberConfig, corsConfig)
 
 	app.Use(fiberLogger)
+	srv, err := service.NewService(service.WithServer(app), service.WithConfig(cfg), service.WithLogger(srvLogger))
+
+	if err != nil {
+		log.Fatal(err)
+	}
+	DI := di.NewDI(app, cfg.JwtSecret)
+
+	err = service.Setup(DI, app, db, cfg)
+	go handleShutdown(ctx, cancel, srv, srvLogger)
+
+	srvLogger.Fatal(srv.Run(ctx))
+}
+
+func handleShutdown(ctx context.Context, cancel context.CancelFunc, srv service.Service, logger *log.Logger) {
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, syscall.SIGINT, syscall.SIGTERM)
+
+	select {
+	case sig := <-sigChan:
+		logger.Printf("received signal: %v", sig)
+		cancel()
+		if err := srv.Shutdown(ctx); err != nil {
+			logger.Printf("shutdown error: %v", err)
+		}
+	case <-ctx.Done():
+		logger.Println("context cancelled")
+	}
 }
