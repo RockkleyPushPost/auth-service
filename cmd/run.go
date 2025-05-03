@@ -2,11 +2,11 @@ package main
 
 import (
 	"context"
-	"github.com/RockkleyPushPost/auth-service/config"
 	"github.com/RockkleyPushPost/auth-service/service"
-	"github.com/RockkleyPushPost/auth-service/setup"
+	"github.com/RockkleyPushPost/common/config"
 	"github.com/RockkleyPushPost/common/di"
 	lg "github.com/RockkleyPushPost/common/logger"
+	"github.com/RockkleyPushPost/common/setup"
 	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/cors"
 	"github.com/gofiber/fiber/v2/middleware/logger"

@@ -3,7 +3,8 @@ package usecase
 import (
 	"fmt"
 	"log"
-	"pushpost/pkg/kafka"
+
+	"github.com/RockkleyPushPost/common/kafka"
 )
 
 const VerificationRequestTopic = "verification-requests-topic"

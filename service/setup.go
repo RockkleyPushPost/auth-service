@@ -1,16 +1,15 @@
 package service
 
 import (
+	"github.com/RockkleyPushPost/auth-service/domain"
+	"github.com/RockkleyPushPost/auth-service/domain/usecase"
+	"github.com/RockkleyPushPost/common/config"
+	"github.com/RockkleyPushPost/common/di"
 	"github.com/gofiber/fiber/v2"
 	"gorm.io/gorm"
 	"log"
-	"pushpost/internal/config"
-	"pushpost/internal/services/user_service/domain"
-	"pushpost/internal/services/user_service/domain/usecase"
 	transport2 "pushpost/internal/services/user_service/transport"
-	"pushpost/internal/services/user_service/transport/handlers"
 	"pushpost/internal/services/user_service/transport/routing"
-	"pushpost/pkg/di"
 )
 
 func Setup(DI *di.DI, server *fiber.App, db *gorm.DB, cfg *config.Config) error {

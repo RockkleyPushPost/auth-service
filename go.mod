@@ -4,6 +4,7 @@ go 1.23.2
 
 require (
 	github.com/gofiber/fiber/v2 v2.52.6
+	github.com/RockkleyPushPost/common v0.0.0-20250503114409-dda4e0de0314
 	gorm.io/gorm v1.26.0
 )
 

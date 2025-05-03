@@ -10,7 +10,7 @@ COPY . .
 
 
 
-RUN go build -o auth_service ./internal/services/auth_service/cmd
+RUN go build -o auth_service ./cmd
 
 FROM alpine:latest
 
@@ -20,7 +20,7 @@ ARG HOST
 ENV HOST=${AUTH_SERVICE_HOST}
 ENV PORT=${AUTH_SERVICE_PORT}
 COPY --from=builder /app/auth_service .
-COPY --from=builder /app/internal/services/auth_service/config ./config/
+COPY --from=builder /app/config ./config/
 
 EXPOSE ${PORT}
 
