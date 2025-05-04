@@ -9,8 +9,6 @@ import (
 	"log"
 )
 
-const serviceName string = "AuthService"
-
 type Option func(*service)
 
 type service struct {

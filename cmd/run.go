@@ -17,8 +17,6 @@ import (
 	"time"
 )
 
-const ServiceName = "auth-service"
-
 func main() {
 	//kafkaBroker := os.Getenv("KAFKA_BROKER")
 	//
@@ -26,17 +24,16 @@ func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
 
-	srvLogger := lg.InitLogger(ServiceName)
-
 	cfg, err := config.LoadYamlConfig(os.Getenv("AUTH_SERVICE_CONFIG_PATH"))
 
 	if err != nil {
 
-		log.Fatalf("failed to load gateway service config: %v", err)
+		log.Fatalf("failed to load config: %v", err)
 	}
+	srvLogger := lg.InitLogger(cfg.ServiceName)
 
 	fiberConfig := fiber.Config{ // FIXME no hardcoded config here (move to config)
-		AppName:                 ServiceName,
+		AppName:                 cfg.ServiceName,
 		ReadTimeout:             30 * time.Second,
 		WriteTimeout:            30 * time.Second,
 		IdleTimeout:             120 * time.Second,
