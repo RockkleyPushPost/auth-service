@@ -5,7 +5,7 @@ import (
 )
 
 type AuthUseCase interface {
-	RegisterUser(dto *dto.RegisterUserDTO) (err error)
+	RegisterUser(dto *dto.RegisterUserDTO) error
 	Login(dto dto.UserLoginDTO) (string, error)
 	IsEmailVerified(email string) (bool, error)
 	SendNewOTP(email string) error

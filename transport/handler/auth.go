@@ -23,7 +23,7 @@ func (h *AuthHandler) RegisterUser(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": err.Error()})
 	}
 
-	err := h.AuthUseCase.RegisterUser(&params)
+	err := h.AuthUseCase.RegisterUser(&registerUserDto)
 
 	if err != nil {
 

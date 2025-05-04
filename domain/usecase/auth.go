@@ -2,6 +2,7 @@ package usecase
 
 import (
 	"fmt"
+	"github.com/RockkleyPushPost/auth-service/domain/dto"
 	"github.com/RockkleyPushPost/common/kafka"
 	"log"
 )
@@ -23,4 +24,9 @@ func (u *AuthUseCase) CreateOTPVerificationRequest(email string) {
 	} else {
 		fmt.Println("verification request sent:", email)
 	}
+}
+
+func (u *AuthUseCase) RegisterUser(dto dto.RegisterUserDTO) error {
+
+	return
 }
