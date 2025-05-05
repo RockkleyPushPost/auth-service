@@ -3,7 +3,7 @@ module github.com/RockkleyPushPost/auth-service
 go 1.23.2
 
 require (
-	github.com/RockkleyPushPost/common v0.0.0-20250503204039-6dcf51b791ba
+	github.com/RockkleyPushPost/common v0.0.0-20250505224022-895261c683c6
 	github.com/gofiber/fiber/v2 v2.52.6
 	gorm.io/gorm v1.26.0
 )
