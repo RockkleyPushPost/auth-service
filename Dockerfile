@@ -8,8 +8,6 @@ RUN go mod download
 
 COPY . .
 
-
-
 RUN go build -o auth_service ./cmd
 
 FROM alpine:latest
